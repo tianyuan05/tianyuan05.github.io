@@ -1,0 +1,48 @@
+#<center>RestSharp基本用法</center>#
+***
+##RestClient
+<pre>
+<code>RestClient client = new RestClient("http://192.168.100.208:32183/api/");</code>
+</pre>
+    
+##RestRequest
+<pre>
+<code>
+var request = new RestRequest("Values", Method.POST);
+var request = new RestRequest("Values?arg1={arg1}&arg2={arg2}", Method.POST);
+</code></pre>
+<pre><code>
+var request2 = new RestRequest("Values"); 
+var request = new RestRequest("Values?arg1={arg1}&arg2={arg2}");</code></pre>
+
+####参数：[FormUri]
+<pre><code>
+request.AddUrlSegment("arg1", 2);
+request.AddUrlSegment("arg2", 3);
+</code></pre>
+####参数：[FormBody]
+<pre><code>
+request.AddJsonBody(object);
+<font color=green>// 直接将对象转化成Json串对应Http[FromBody]参数</font>
+</code></pre>
+<font color="#FF000000">**Get和Header操作不能接受FromBody参数**</font>
+
+##IRestResponse
+<pre><code>
+IRestResponse  response = client.Execute(request);
+<font color=green>//client初始化时指定Http方法</font>
+IRestResponse<List<ActivityModel>> response = client.Execute<List<ActivityModel>>(request);
+<font color=green>//直接将Json字符串转换成对象</font>
+
+</code></pre>
+
+<pre><code>
+IRestResponse response;
+response = client.Post(request);
+response = client.Post<ActivityModel>(request);
+var response3 = client.PostTaskAsync<ActivityModel>(request);
+<font color=green>//client没有指定Http方法</font>
+
+</code></pre>
+
+
